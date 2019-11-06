@@ -14,7 +14,14 @@ objects:
   metadata:
     labels:
       application: ${APPLICATION_NAME}
-    name: ${APPLICATION_NAME}
+    name: ${APPLICATION_NAME}-web
+    namespace: ${NAMESPACE}
+- apiVersion: v1
+  kind: ImageStream
+  metadata:
+    labels:
+      application: ${APPLICATION_NAME}
+    name: ${APPLICATION_NAME}-job
     namespace: ${NAMESPACE}
 - kind: "BuildConfig"
   apiVersion: "v1"
@@ -83,7 +90,7 @@ objects:
     output:
       to:
         kind: ImageStreamTag
-        name: ${APPLICATION_NAME}:latest
+        name: ${APPLICATION_NAME}-job:latest
     source:
       binary: {}
       type: Binary
@@ -105,7 +112,7 @@ objects:
     output:
       to:
         kind: ImageStreamTag
-        name: ${APPLICATION_NAME}:latest
+        name: ${APPLICATION_NAME}-web:latest
     source:
       binary: {}
       type: Binary
