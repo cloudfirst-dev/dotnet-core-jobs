@@ -21,7 +21,7 @@ objects:
   metadata:
     labels:
       application: ${APPLICATION_NAME}
-    name: "${APPLICATION_NAME}-web"
+    name: "${APPLICATION_NAME}-web-pipeline"
     namespace: "${NAMESPACE}"
   spec:
     source:
@@ -41,15 +41,15 @@ objects:
         jenkinsfilePath: ${PIPELINE_SCRIPT}
         env:
         - name: "APPLICATION_SOURCE_REPO"
-          value: "${APPLICATION_SOURCE_REPO}"
+          value: "${SOURCE_REPOSITORY_URL}"
         - name: "APPLICATION_SOURCE_REF"
-          value: "${APPLICATION_SOURCE_REF}"
+          value: "${SOURCE_REPOSITORY_REF}"
 - kind: "BuildConfig"
   apiVersion: "v1"
   metadata:
     labels:
       application: ${APPLICATION_NAME}
-    name: "${APPLICATION_NAME}-job"
+    name: "${APPLICATION_NAME}-job-pipeline"
     namespace: "${NAMESPACE}"
   spec:
     source:
@@ -69,9 +69,9 @@ objects:
         jenkinsfilePath: ${PIPELINE_SCRIPT}
         env:
         - name: "APPLICATION_SOURCE_REPO"
-          value: "${APPLICATION_SOURCE_REPO}"
+          value: "${SOURCE_REPOSITORY_URL}"
         - name: "APPLICATION_SOURCE_REF"
-          value: "${APPLICATION_SOURCE_REF}"
+          value: "${SOURCE_REPOSITORY_REF}"
 - apiVersion: v1
   kind: BuildConfig
   metadata:
