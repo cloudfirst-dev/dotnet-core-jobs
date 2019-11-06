@@ -63,7 +63,7 @@ pipeline {
 
     stage('Promote from Build to Dev') {
       steps {
-        tagImage(sourceImageName: env.APP_NAME, sourceImagePath: env.BUILD, toImagePath: env.DEV)
+        tagImage(sourceImageName: "${APP_NAME}-web", sourceImagePath: env.BUILD, toImagePath: env.DEV)
       }
     }
 
