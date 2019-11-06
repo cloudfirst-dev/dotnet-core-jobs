@@ -1,7 +1,7 @@
 application_name: dot-net-jobs
 build_namespace: "{{ application_name }}-build"
 dev_namespace: "{{ application_name }}-dev"
-application_repository_url: "https://github.com/redhat-developer/s2i-dotnetcore-ex.git"
+application_repository_url: "https://github.com/cloudfirst-dev/dotnet-core-jobs.git"
 application_repository_ref: master
 application_readiness_response: "html"
 application_readiness_path: "/"
