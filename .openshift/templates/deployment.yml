@@ -15,15 +15,15 @@ objects:
     annotations:
       description: The web server's http port.
     labels:
-      app: ${APPLICATION_NAME}
-    name: ${APPLICATION_NAME}
+      app: ${APPLICATION_NAME}-web
+    name: ${APPLICATION_NAME}-web
     namespace: ${NAMESPACE}
   spec:
     ports:
     - port: 8080
       targetPort: 8080
     selector:
-      deploymentConfig: ${APPLICATION_NAME}
+      deploymentConfig: ${APPLICATION_NAME}-web
 - apiVersion: v1
   id: ${APPLICATION_NAME}-http
   kind: Route
@@ -31,49 +31,51 @@ objects:
     annotations:
       description: Route for application's http service.
     labels:
-      app: ${APPLICATION_NAME}
+      app: ${APPLICATION_NAME}-web
     name: ${APPLICATION_NAME}
     namespace: ${NAMESPACE}
   spec:
     host: ${HOSTNAME_HTTP}
     to:
-      name: ${APPLICATION_NAME}
+      name: ${APPLICATION_NAME}-web
 - apiVersion: v1
   kind: ImageStream
   metadata:
     labels:
       app: ${APPLICATION_NAME}
-    name: ${APPLICATION_NAME}
+    name: ${APPLICATION_NAME}-job
+    namespace: ${NAMESPACE}
+- apiVersion: v1
+  kind: ImageStream
+  metadata:
+    labels:
+      app: ${APPLICATION_NAME}
+    name: ${APPLICATION_NAME}-web
     namespace: ${NAMESPACE}
 - apiVersion: v1
   kind: DeploymentConfig
   metadata:
     labels:
-      app: ${APPLICATION_NAME}
-    name: ${APPLICATION_NAME}
+      app: ${APPLICATION_NAME}-web
+    name: ${APPLICATION_NAME}-web
     namespace: ${NAMESPACE}
   spec:
     replicas: 1
     selector:
-      deploymentConfig: ${APPLICATION_NAME}
+      deploymentConfig: ${APPLICATION_NAME}-web
     strategy:
       type: Recreate
     template:
       metadata:
         labels:
-          app: ${APPLICATION_NAME}
-          deploymentConfig: ${APPLICATION_NAME}
-        name: ${APPLICATION_NAME}
+          app: ${APPLICATION_NAME}-web
+          deploymentConfig: ${APPLICATION_NAME}-web
+        name: ${APPLICATION_NAME}-web
       spec:
         containers:
-        - env:
-          - name: JWS_ADMIN_USERNAME
-            value: ${JWS_ADMIN_USERNAME}
-          - name: JWS_ADMIN_PASSWORD
-            value: ${JWS_ADMIN_PASSWORD}
-          image: ${APPLICATION_NAME}
+        - image: ${APPLICATION_NAME}-web
           imagePullPolicy: Always
-          name: ${APPLICATION_NAME}
+          name: ${APPLICATION_NAME}-web
           ports:
           - containerPort: 8778
             name: jolokia
@@ -87,16 +89,15 @@ objects:
               - /bin/bash
               - -c
               - curl -s 'http://localhost:8080${READINESS_PATH}'
-                |grep -iq '${READINESS_RESPONSE}'
         terminationGracePeriodSeconds: 60
     triggers:
     - imageChangeParams:
         automatic: true
         containerNames:
-        - ${APPLICATION_NAME}
+        - ${APPLICATION_NAME}-web
         from:
           kind: ImageStreamTag
-          name: ${APPLICATION_NAME}:latest
+          name: ${APPLICATION_NAME}-web:latest
       type: ImageChange
     - type: ConfigChange
 - apiVersion: v1

@@ -30,15 +30,15 @@ openshift_cluster_content:
       PIPELINE_SCRIPT: "{{ pipeline_script }}"
     tags:
       - build
-# - object: deployments
-#   content:
-#   - name: "deploy dev environment"
-#     template: "{{ inventory_dir }}/../.openshift/templates/deployment.yml"
-#     params_from_vars:
-#       APPLICATION_NAME: "{{ sb_application_name }}"
-#       NAMESPACE: "{{ sb_dev_namespace }}"
-#       SA_NAMESPACE: "{{ sb_build_namespace }}"
-#       READINESS_RESPONSE: "{{ sb_application_readiness_response }}"
-#       READINESS_PATH: "{{ sb_application_readiness_path }}"
-#     tags:
-#       - deployment
+- object: deployments
+  content:
+  - name: "deploy dev environment"
+    template: "{{ inventory_dir }}/../.openshift/templates/deployment.yml"
+    params_from_vars:
+      APPLICATION_NAME: "{{ application_name }}"
+      NAMESPACE: "{{ dev_namespace }}"
+      SA_NAMESPACE: "{{ build_namespace }}"
+      READINESS_RESPONSE: "{{ application_readiness_response }}"
+      READINESS_PATH: "{{ application_readiness_path }}"
+    tags:
+      - deployment
