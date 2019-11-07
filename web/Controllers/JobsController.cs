@@ -96,10 +96,6 @@ namespace web.Controllers
                                 new V1Container {
                                     Name = "runner",
                                     Image = "image-registry.openshift-image-registry.svc:5000/dot-net-jobs-dev/dot-net-jobs-job:latest",
-                                    Command = new List<string> {
-                                        "dotnet",
-                                        "job.dll"
-                                    }
                                 }
                             },
                             RestartPolicy = "Never"
