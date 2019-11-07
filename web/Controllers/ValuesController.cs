@@ -25,7 +25,8 @@ namespace web.Controllers
             } else {
                 config = KubernetesClientConfiguration.InClusterConfig();
             }
-             
+            
+            // setup the kubernetes client
             var client = new Kubernetes(config);
             var list = client.ListNamespacedPod("dot-net-jobs-dev");
             var pod = list.Items[0];
