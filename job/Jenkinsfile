@@ -66,11 +66,5 @@ pipeline {
         tagImage(sourceImageName: "${APP_NAME}-job", sourceImagePath: env.BUILD, toImagePath: env.DEV)
       }
     }
-
-    stage ('Verify Deployment to Dev') {
-      steps {
-        verifyDeployment(projectName: env.DEV, targetApp: "${APP_NAME}-job")
-      }
-    }
   }
 }

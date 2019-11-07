@@ -95,11 +95,10 @@ namespace web.Controllers
                             Containers = new List<V1Container> {
                                 new V1Container {
                                     Name = "runner",
-                                    Image = "centos:7",
+                                    Image = "image-registry.openshift-image-registry.svc:5000/dot-net-jobs-build/dot-net-jobs-job:latest",
                                     Command = new List<string> {
-                                        "bin/bash",
-                                        "-c",
-                                        "for i in 9 8 7 6 5 4 3 2 1 ; do echo $i ; done"
+                                        "dotnet",
+                                        "job.dll"
                                     }
                                 }
                             },
