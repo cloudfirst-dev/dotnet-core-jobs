@@ -6,6 +6,7 @@ application_repository_ref: master
 application_readiness_response: "html"
 application_readiness_path: "/"
 pipeline_script: "Jenkinsfile"
+runner_image: "image-registry.openshift-image-registry.svc:5000/dot-net-jobs-dev/dot-net-jobs-job:latest"
 
 openshift_cluster_content:
 - object: projects
@@ -40,5 +41,6 @@ openshift_cluster_content:
       SA_NAMESPACE: "{{ build_namespace }}"
       READINESS_RESPONSE: "{{ application_readiness_response }}"
       READINESS_PATH: "{{ application_readiness_path }}"
+      RUNNER_IMAGE: "{{ runner_image }}"
     tags:
       - deployment

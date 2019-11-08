@@ -73,6 +73,7 @@ namespace web.Controllers
             // get the namespace the pod is running in
             // this is set with a FieldRef as part of the deployment
             var pod_namespace = Environment.GetEnvironmentVariable("MY_POD_NAMESPACE");
+            var task_image = Environment.GetEnvironmentVariable("RUNNER_IMAGE");
 
             // get the kube client
             var kube = GetKubernetes();
@@ -95,7 +96,7 @@ namespace web.Controllers
                             Containers = new List<V1Container> {
                                 new V1Container {
                                     Name = "runner",
-                                    Image = "image-registry.openshift-image-registry.svc:5000/dot-net-jobs-dev/dot-net-jobs-job:latest",
+                                    Image = task_image,
                                 }
                             },
                             RestartPolicy = "Never"
