@@ -1,0 +1,47 @@
+apiVersion: v1
+kind: Template
+labels:
+  template: basic-dotnet-core
+metadata:
+  annotations:
+    description: Application template for .NET Core applications built using a Jenkins Pipeline
+    iconClass: icon-tomcat
+    version: 1.2.0
+  name: basic-dotnet-core
+objects:
+- apiVersion: v1
+  kind: ServiceAccount
+  metadata:
+    name: web
+    namespace: ${NAMESPACE}
+- kind: Role
+  apiVersion: rbac.authorization.k8s.io/v1
+  metadata:
+    name: job-scheduler
+    namespace: ${NAMESPACE}
+  rules:
+    - verbs:
+        - create
+        - list
+        - get
+      apiGroups:
+        - batch
+      resources:
+        - jobs
+- kind: RoleBinding
+  apiVersion: rbac.authorization.k8s.io/v1
+  metadata:
+    name: web-job-scheduler
+    namespace: ${NAMESPACE}
+  subjects:
+    - kind: ServiceAccount
+      name: web
+      namespace: ${NAMESPACE}
+  roleRef:
+    apiGroup: rbac.authorization.k8s.io
+    kind: Role
+    name: job-scheduler
+parameters:
+- description: The namespace to deploy into
+  name: NAMESPACE
+  required: true

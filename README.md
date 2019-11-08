@@ -1,3 +1,7 @@
+## Prequesites
+
+
+
 ## Automated Deployment
 
 This quickstart can be deployed quickly using Ansible. Here are the steps.
@@ -9,5 +13,6 @@ This quickstart can be deployed quickly using Ansible. Here are the steps.
 ```
 $ ansible-playbook -i ./.applier/ galaxy/openshift-applier/playbooks/openshift-cluster-seed.yml
 ```
+3. If you are running on an OpenShift 4.x cluster be sure to create a Jenkins instance in the dot-net-jobs-build namespace
 
-At this point you should have 4 projects created (`dot-net-jobs-build`, and `dot-net-jobs-dev`) with a pipeline in the `-build` project, and our job runner app and job images
+At this point you should have two projects created (`dot-net-jobs-build`, and `dot-net-jobs-dev`) with a pipeline in the `-build` project, and our job runner app and job images

@@ -72,6 +72,7 @@ objects:
           deploymentConfig: ${APPLICATION_NAME}-web
         name: ${APPLICATION_NAME}-web
       spec:
+        serviceAccount: web
         containers:
         - image: ${APPLICATION_NAME}-web
           imagePullPolicy: Always

@@ -31,6 +31,14 @@ openshift_cluster_content:
       PIPELINE_SCRIPT: "{{ pipeline_script }}"
     tags:
       - build
+- object: roles
+  content:
+  - name: "service account and roles"
+    template: "{{ inventory_dir }}/../.openshift/templates/roles.yml"
+    params_from_vars:
+      NAMESPACE: "{{ dev_namespace }}"
+    tags:
+      - roles
 - object: deployments
   content:
   - name: "deploy dev environment"
